@@ -6,12 +6,24 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.bilibilidemo.mvp.model.entity.LiveAppIndexInfo;
+import com.example.bilibilidemo.mvp.model.entity.LiveHeader;
+import com.example.bilibilidemo.mvp.model.entity.RecommendBannerInfo;
+import com.example.bilibilidemo.mvp.model.entity.RecommendInfo;
+import com.example.bilibilidemo.mvp.ui.viewbinder.LiveHeaderItemViewBinder;
+import com.example.bilibilidemo.mvp.ui.viewbinder.RecommendedFooterItemViewBinder;
+import com.example.bilibilidemo.mvp.ui.viewbinder.RecommendedHeaderItemViewBinder;
+import com.example.bilibilidemo.mvp.ui.viewbinder.RecommendedLiveItemViewBinder;
+import com.example.bilibilidemo.mvp.ui.viewbinder.RecommendedPartitionItemViewBinder;
 import com.example.bilibilidemo.mvp.ui.widget.CustomEmptyView;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
@@ -24,8 +36,11 @@ import com.example.bilibilidemo.mvp.presenter.HomeRecommendedPresenter;
 import com.example.bilibilidemo.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import me.drakeet.multitype.Items;
+import me.drakeet.multitype.MultiTypeAdapter;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -43,6 +58,15 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class HomeRecommendedFragment extends BaseFragment<HomeRecommendedPresenter> implements HomeRecommendedContract.View {
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycle)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.empty_layout)
+    CustomEmptyView mCustomEmptyView;
+
+    private MultiTypeAdapter mAdapter;
 
     public static HomeRecommendedFragment newInstance() {
         HomeRecommendedFragment fragment = new HomeRecommendedFragment();
@@ -66,7 +90,52 @@ public class HomeRecommendedFragment extends BaseFragment<HomeRecommendedPresent
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        initRefreshLayout();
+        initRecyclerView();
+        loadData();
+    }
 
+    private void initRecyclerView() {
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                Object o = mAdapter.getItems().get(position);
+                if(o instanceof RecommendInfo.ResultBean.BodyBean){
+                    return 1;
+                }
+                return 2;
+            }
+        };
+
+        layoutManager.setSpanSizeLookup(spanSizeLookup);
+        mRecyclerView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.bg_main));
+        mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MultiTypeAdapter();
+
+        //header
+        mAdapter.register(RecommendBannerInfo.class, new RecommendedHeaderItemViewBinder());
+        //partition
+        mAdapter.register(RecommendInfo.ResultBean.HeadBean.class, new RecommendedPartitionItemViewBinder());
+        //live
+        mAdapter.register(RecommendInfo.ResultBean.BodyBean.class, new RecommendedLiveItemViewBinder());
+        //footer
+        mAdapter.register(RecommendInfo.ResultBean.class, new RecommendedFooterItemViewBinder());
+
+
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    private void initRefreshLayout() {
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            loadData();
+        });
+    }
+
+    private void loadData() {
+        mPresenter.loadData();
     }
 
     /**
@@ -112,12 +181,12 @@ public class HomeRecommendedFragment extends BaseFragment<HomeRecommendedPresent
 
     @Override
     public void showLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -136,4 +205,12 @@ public class HomeRecommendedFragment extends BaseFragment<HomeRecommendedPresent
     public void killMyself() {
 
     }
+
+    @Override
+    public void finishTask(Items items) {
+        mAdapter.setItems(items);
+        mAdapter.notifyDataSetChanged();
+    }
+
+
 }

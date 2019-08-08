@@ -1,1 +1,1 @@
-include ':demo', ':arms', ':arms-autolayout', ':arms-imageloader-glide', ':demo-bilibili'
+include ':arms', ':arms-autolayout', ':arms-imageloader-glide', ':demo-bilibili'

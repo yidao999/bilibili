@@ -46,7 +46,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbars)
     Toolbar mToolbar;
     @BindView(R.id.iv_icon_left)
     ImageView mLeftLogo;

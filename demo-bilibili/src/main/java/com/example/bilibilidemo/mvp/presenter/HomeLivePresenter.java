@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import com.example.bilibilidemo.mvp.contract.HomeLiveContract;
 import com.jess.arms.utils.RxLifecycleUtils;
 
+import java.util.List;
+
 
 /**
  * ================================================
@@ -57,7 +59,7 @@ public class HomeLivePresenter extends BasePresenter<HomeLiveContract.Model, Hom
     public void loadData() {
         mModel.getData()
                 .subscribeOn(Schedulers.io())
-                .retryWhen(new RetryWithDelay(1, 1))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .retryWhen(new RetryWithDelay(3, 3))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(disposable -> {
                     mRootView.showLoading();//显示下拉刷新的进度条
                 }).subscribeOn(AndroidSchedulers.mainThread())
@@ -90,9 +92,14 @@ public class HomeLivePresenter extends BasePresenter<HomeLiveContract.Model, Hom
         items.add(liveHeader);
         //entrance
         items.add(new LiveEntranceItemViewBinder.LiveEntranceItem());
-        //partition+item
-        items.add(data.getData().getPartitions().get(0).getPartition());
-
+        //partition + live
+        List<LiveAppIndexInfo.DataBean.PartitionsBean> partitions = data.getData().getPartitions();
+        for (int i = 0; i < partitions.size(); i++) {
+            items.add(data.getData().getPartitions().get(i).getPartition());
+            for (int j = 0; j < 4; j++) {
+                items.add(data.getData().getPartitions().get(i).getLives().get(j));
+            }
+        }
         return items;
     }
 

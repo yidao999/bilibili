@@ -7,7 +7,7 @@ import android.view.WindowManager;
 /**
  * author: 小川
  * Date: 2019/7/22
- * Description:
+ * Description: StatusBar隐藏显示工具类
  */
 public class SystemUiVisibilityUtil {
     public static void addFlags(View view, int flags) {

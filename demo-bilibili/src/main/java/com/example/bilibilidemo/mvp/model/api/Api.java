@@ -15,4 +15,15 @@ public interface Api {
     String HOME_LIVE_DOMAIN_NAME = "home_live";
     String HOME_LIVE_DOMAIN = "http://live.bilibili.com";
 
+    String VIP_URL = "http://vip.bilibili.com/site/vip-faq-h5.html#yv1";
+
+    String DETAIL_ACCOUNT_DOMAIN_NAME = "detail_account";
+    String DETAIL_ACCOUNT_DOMAIN = "https://account.bilibili.com/";
+
+    String VIP_GAME_DOMAIN_NAME = "vip_game";
+    String VIP_GAME_DOMAIN = "http://vip.bilibili.com/";
+
+    String APP_BASE_URL_DOMAIN_NAME = "APP_BASE";
+    String APP_BASE_URL_DOMAIN = "http://app.bilibili.com/";
+
 }

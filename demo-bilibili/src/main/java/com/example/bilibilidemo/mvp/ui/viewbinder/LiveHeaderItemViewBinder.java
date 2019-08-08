@@ -1,5 +1,7 @@
 package com.example.bilibilidemo.mvp.ui.viewbinder;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,9 +10,12 @@ import android.view.ViewGroup;
 
 import com.example.bilibilidemo.R;
 import com.example.bilibilidemo.app.utils.GlideImageLoader;
+import com.example.bilibilidemo.mvp.model.Constant;
 import com.example.bilibilidemo.mvp.model.entity.LiveAppIndexInfo;
 import com.example.bilibilidemo.mvp.model.entity.LiveHeader;
+import com.example.bilibilidemo.mvp.ui.activity.BrowserActivity;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,17 @@ public class LiveHeaderItemViewBinder extends ItemViewBinder<LiveHeader, LiveHea
     @Override
     protected void onBindViewHolder(@NonNull Holder holder, @NonNull LiveHeader item) {
         initBanner(holder,item);
+        listener(holder,item);
+    }
+
+    private void listener(Holder holder, LiveHeader item) {
+        holder.banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Context context = holder.banner.getContext();
+                BrowserActivity.launch(context,item.getBanner().get(position).getLink(),item.getBanner().get(position).getTitle());
+            }
+        });
     }
 
     public class Holder extends RecyclerView.ViewHolder {

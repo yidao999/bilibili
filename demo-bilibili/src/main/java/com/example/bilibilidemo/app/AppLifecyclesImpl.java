@@ -15,9 +15,14 @@ import butterknife.ButterKnife;
 import com.example.bilibilidemo.BuildConfig;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
+import static com.example.bilibilidemo.mvp.model.api.Api.APP_BASE_URL_DOMAIN;
+import static com.example.bilibilidemo.mvp.model.api.Api.APP_BASE_URL_DOMAIN_NAME;
+import static com.example.bilibilidemo.mvp.model.api.Api.DETAIL_ACCOUNT_DOMAIN;
+import static com.example.bilibilidemo.mvp.model.api.Api.DETAIL_ACCOUNT_DOMAIN_NAME;
+import static com.example.bilibilidemo.mvp.model.api.Api.VIP_GAME_DOMAIN;
+import static com.example.bilibilidemo.mvp.model.api.Api.VIP_GAME_DOMAIN_NAME;
 import static com.example.bilibilidemo.mvp.model.api.Api.HOME_LIVE_DOMAIN;
 import static com.example.bilibilidemo.mvp.model.api.Api.HOME_LIVE_DOMAIN_NAME;
 
@@ -44,7 +49,10 @@ public class AppLifecyclesImpl implements AppLifecycles {
             // You should not init your app in this process.
             return;
         }
-        RetrofitUrlManager.getInstance().putDomain(HOME_LIVE_DOMAIN_NAME,HOME_LIVE_DOMAIN);
+        RetrofitUrlManager.getInstance().putDomain(HOME_LIVE_DOMAIN_NAME, HOME_LIVE_DOMAIN);
+        RetrofitUrlManager.getInstance().putDomain(DETAIL_ACCOUNT_DOMAIN_NAME, DETAIL_ACCOUNT_DOMAIN);
+        RetrofitUrlManager.getInstance().putDomain(VIP_GAME_DOMAIN_NAME, VIP_GAME_DOMAIN);
+        RetrofitUrlManager.getInstance().putDomain(APP_BASE_URL_DOMAIN_NAME, APP_BASE_URL_DOMAIN);
 
         if (BuildConfig.LOG_DEBUG) {//Timber初始化
             //Timber 是一个日志框架容器,外部使用统一的Api,内部可以动态的切换成任何日志框架(打印策略)进行日志打印

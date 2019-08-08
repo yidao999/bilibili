@@ -19,6 +19,7 @@ import com.example.bilibilidemo.mvp.model.entity.LiveAppIndexInfo;
 import com.example.bilibilidemo.mvp.model.entity.LiveHeader;
 import com.example.bilibilidemo.mvp.ui.viewbinder.LiveEntranceItemViewBinder;
 import com.example.bilibilidemo.mvp.ui.viewbinder.LiveHeaderItemViewBinder;
+import com.example.bilibilidemo.mvp.ui.viewbinder.LiveLiveItemViewBinder;
 import com.example.bilibilidemo.mvp.ui.viewbinder.LivePartitionItemViewBinder;
 import com.example.bilibilidemo.mvp.ui.widget.CustomEmptyView;
 import com.jess.arms.base.BaseFragment;
@@ -87,6 +88,7 @@ public class HomeLiveFragment extends BaseFragment<HomeLivePresenter> implements
     public void initData(@Nullable Bundle savedInstanceState) {
         initRefreshLayout();
         initRecyclerView();
+        mPresenter.loadData();
     }
 
     protected void initRefreshLayout() {
@@ -100,6 +102,9 @@ public class HomeLiveFragment extends BaseFragment<HomeLivePresenter> implements
             @Override
             public int getSpanSize(int position) {
                 Object o = mAdapter.getItems().get(position);
+                if(o instanceof LiveAppIndexInfo.DataBean.PartitionsBean.LivesBeanX){
+                    return 1;
+                }
                 return 2;
             }
         };
@@ -114,7 +119,8 @@ public class HomeLiveFragment extends BaseFragment<HomeLivePresenter> implements
         mAdapter.register(LiveEntranceItemViewBinder.LiveEntranceItem.class,new LiveEntranceItemViewBinder());
         //partition
         mAdapter.register(LiveAppIndexInfo.DataBean.PartitionsBean.PartitionBeanX.class,new LivePartitionItemViewBinder());
-
+        //live
+        mAdapter.register(LiveAppIndexInfo.DataBean.PartitionsBean.LivesBeanX.class,new LiveLiveItemViewBinder());
 
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storePassword '123456'
+            keyAlias = 'key0'
+            keyPassword '123456'
+            storeFile file('c:\\bilibili.jks')
+        }
+    }
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-    
+
     useLibrary 'org.apache.http.legacy'
 
     compileOptions {
@@ -17,6 +25,7 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -30,10 +39,11 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
+            minifyEnabled false
+//            shrinkResources true
+//            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -48,6 +58,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'me.jessyan:arms:2.5.2'
     implementation 'me.jessyan:arms-imageloader-glide:2.5.2'
+    implementation rootProject.ext.dependencies["appcompat-v7"]
 
     //arms
     implementation project(':arms')
@@ -62,6 +73,14 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'me.drakeet.multitype:multitype:3.4.2'
     implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    implementation rootProject.ext.dependencies["rxlifecycle2-components"]
+
+    //ijkplayer
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.6.0'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.6.0'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv5:0.6.1'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.6.1'
 
     //tools
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]

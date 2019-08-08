@@ -2,6 +2,9 @@ package com.example.bilibilidemo.mvp.model;
 
 import android.app.Application;
 
+import com.example.bilibilidemo.mvp.model.api.service.BiliAppService;
+import com.example.bilibilidemo.mvp.model.entity.RecommendBannerInfo;
+import com.example.bilibilidemo.mvp.model.entity.RecommendInfo;
 import com.google.gson.Gson;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
@@ -11,6 +14,8 @@ import com.jess.arms.di.scope.FragmentScope;
 import javax.inject.Inject;
 
 import com.example.bilibilidemo.mvp.contract.HomeRecommendedContract;
+
+import io.reactivex.Observable;
 
 
 /**
@@ -42,5 +47,17 @@ public class HomeRecommendedModel extends BaseModel implements HomeRecommendedCo
         super.onDestroy();
         this.mGson = null;
         this.mApplication = null;
+    }
+
+    @Override
+    public Observable<RecommendBannerInfo> getRecommendedBannerInfo() {
+        return mRepositoryManager.obtainRetrofitService(BiliAppService.class)
+                .getRecommendedBannerInfo();
+    }
+
+    @Override
+    public Observable<RecommendInfo> getRecommendedInfo() {
+        return mRepositoryManager.obtainRetrofitService(BiliAppService.class)
+                .getRecommendedInfo();
     }
 }

@@ -17,7 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bilibilidemo.mvp.model.Constant;
+import com.example.bilibilidemo.mvp.ui.fragment.AttentionPeopleFragment;
+import com.example.bilibilidemo.mvp.ui.fragment.ConsumeHistoryFragment;
+import com.example.bilibilidemo.mvp.ui.fragment.HistoryFragment;
 import com.example.bilibilidemo.mvp.ui.fragment.HomePageFragment;
+import com.example.bilibilidemo.mvp.ui.fragment.IFavoritesFragment;
+import com.example.bilibilidemo.mvp.ui.fragment.SettingFragment;
 import com.example.bilibilidemo.mvp.ui.widget.CircleImageView;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
@@ -131,26 +136,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
      */
     private void initFragments() {
         mHomePageFragment = HomePageFragment.newInstance();
-//        IFavoritesFragment mFavoritesFragment = IFavoritesFragment.newInstance();
-//        HistoryFragment mHistoryFragment = HistoryFragment.newInstance();
-//        AttentionPeopleFragment mAttentionPeopleFragment = AttentionPeopleFragment.newInstance();
-//        ConsumeHistoryFragment mConsumeHistoryFragment = ConsumeHistoryFragment.newInstance();
-//        SettingFragment mSettingFragment = SettingFragment.newInstance();
-        // TODO: 2019/7/22
+        IFavoritesFragment mFavoritesFragment = IFavoritesFragment.newInstance();
+        HistoryFragment mHistoryFragment = HistoryFragment.newInstance();
+        AttentionPeopleFragment mAttentionPeopleFragment = AttentionPeopleFragment.newInstance();
+        ConsumeHistoryFragment mConsumeHistoryFragment = ConsumeHistoryFragment.newInstance();
+        SettingFragment mSettingFragment = SettingFragment.newInstance();
         fragments = new Fragment[]{
                 mHomePageFragment,
-//                mFavoritesFragment,
-//                mHistoryFragment,
-//                mAttentionPeopleFragment,
-//                mConsumeHistoryFragment,
-//                mSettingFragment
-                // TODO: 2019/7/22
+                mFavoritesFragment,
+                mHistoryFragment,
+                mAttentionPeopleFragment,
+                mConsumeHistoryFragment,
+                mSettingFragment
         };
         // 添加显示第一个fragment
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.container, mHomePageFragment)
                 .show(mHomePageFragment).commit();
+        currentTabIndex = 0;
     }
 
     @Override
@@ -163,13 +167,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 return true;
             case R.id.item_download:
                 // 离线缓存
-//                startActivity(new Intent(MainActivity.this, OffLineDownloadActivity.class));
-                // TODO: 2019/7/23
+                startActivity(new Intent(MainActivity.this, OffLineDownloadActivity.class));
                 return true;
             case R.id.item_vip:
                 //大会员
-//                startActivity(new Intent(MainActivity.this, VipActivity.class));
-                // TODO: 2019/7/23
+                startActivity(new Intent(MainActivity.this, VipActivity.class));
                 return true;
             case R.id.item_favourite:
                 // 我的收藏

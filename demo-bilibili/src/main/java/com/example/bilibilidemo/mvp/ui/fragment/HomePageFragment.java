@@ -18,7 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bilibilidemo.mvp.ui.activity.GameCentreActivity;
 import com.example.bilibilidemo.mvp.ui.activity.MainActivity;
+import com.example.bilibilidemo.mvp.ui.activity.OffLineDownloadActivity;
+import com.example.bilibilidemo.mvp.ui.activity.TotalStationSearchActivity;
 import com.example.bilibilidemo.mvp.ui.adapter.HomePagerAdapter;
 import com.example.bilibilidemo.mvp.ui.widget.CircleImageView;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -109,8 +112,7 @@ public class HomePageFragment extends BaseFragment<HomePagePresenter> implements
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                TotalStationSearchActivity.launch(getActivity(), query);
-                // TODO: 2019/7/22  
+                TotalStationSearchActivity.launch(getActivity(), query);
                 return false;
             }
 
@@ -144,13 +146,11 @@ public class HomePageFragment extends BaseFragment<HomePagePresenter> implements
         switch (id) {
             case R.id.id_action_game:
                 //游戏中心
-//                startActivity(new Intent(getActivity(), GameCentreActivity.class));
-                // TODO: 2019/7/22
+                startActivity(new Intent(getActivity(), GameCentreActivity.class));
                 break;
             case R.id.id_action_download:
                 //离线缓存
-//                startActivity(new Intent(getActivity(), OffLineDownloadActivity.class));
-                // TODO: 2019/7/22
+                startActivity(new Intent(getActivity(), OffLineDownloadActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

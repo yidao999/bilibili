@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.bilibilidemo.R;
 import com.example.bilibilidemo.mvp.ui.fragment.HomeLiveFragment;
@@ -14,7 +15,7 @@ import com.example.bilibilidemo.mvp.ui.fragment.HomeRecommendedFragment;
  * Date: 2019/7/23
  * Description:
  */
-public class HomePagerAdapter extends FragmentPagerAdapter {
+public class HomePagerAdapter extends FragmentStatePagerAdapter {
 
     private final String[] TITLES;
     private Fragment[] fragments;
@@ -33,9 +34,9 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
                 case 0:
                     fragments[position] = HomeLiveFragment.newInstance();
                     break;
-//                case 1:
-//                    fragments[position] = HomeRecommendedFragment.newInstance();
-//                    break;
+                case 1:
+                    fragments[position] = HomeRecommendedFragment.newInstance();
+                    break;
 //                case 2:
 //                    fragments[position] = HomeBangumiFragment.newInstance();
 //                    break;
@@ -48,6 +49,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 //                case 5:
 //                    fragments[position] = HomeDiscoverFragment.newInstance();
 //                    break;
+                // TODO: 2019/8/4  等待处理
                 default:
                     break;
             }
@@ -58,8 +60,9 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
-        //        return TITLES.length;
+        // TODO: 2019/8/4
+//        return TITLES.length;
+        return 2;
     }
 
 
